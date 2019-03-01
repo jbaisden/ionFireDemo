@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "579847091834",
+    "firebase_url": "https://ionfirejb.firebaseio.com",
+    "project_id": "ionfirejb",
+    "storage_bucket": "ionfirejb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579847091834:android:7c399a4c1c1a5787",
+        "android_client_info": {
+          "package_name": "com.jb.ionFire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579847091834-6nq8g3i2h4bqtt4v7dvke81vko2qfhou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHsZbL9PlGlFLuOb16vYYK8QK1evXiWiM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
