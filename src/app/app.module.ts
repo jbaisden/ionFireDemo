@@ -16,7 +16,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-
+import { SharedModule } from './shared/shared.module';
+import { HomePageModule } from './home/home.module';
+import { TodoPageModule } from './todo/todo.module';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +32,9 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireFunctionsModule,
-    AngularFireMessagingModule
+    AngularFireMessagingModule,
+    HomePageModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     Firebase,
