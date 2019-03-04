@@ -13,3 +13,20 @@ ion-img {
 p {
     padding: 1em;
 }
+
+.step-one {
+    background: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+}
+
+
+.step-two {
+    background: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+}
+
+
+.step-three {
+    background: var(--ion-color-dark);
+    color: var(--ion-color-primary-contrast);
+}
