@@ -24,6 +24,8 @@ export class DbService {
         })
       );
   }
+
+
   doc$(path): Observable<any> {
     return this.afs
       .doc(path)
@@ -34,6 +36,7 @@ export class DbService {
         })
       );
   }
+
   /**
   * @param {string} path 'collection' or 'collection/docID'
   * @param {object} data new data
@@ -41,6 +44,8 @@ export class DbService {
   * Creates or updates data on a collection or document.
   **/
   updateAt(path: string, data: Object): Promise<any> {
+    console.warn(`updateAt called with ${path} and `);
+    console.warn(data);
     const segments = path.split('/').filter(v => v);
     if (segments.length % 2) {
       // Odd is always a collection
@@ -50,6 +55,7 @@ export class DbService {
       return this.afs.doc(path).set(data, { merge: true });
     }
   }
+
   /**
   * @param {string} path path to document
   *
@@ -58,4 +64,6 @@ export class DbService {
   delete(path) {
     return this.afs.doc(path).delete();
   }
+
+
 }

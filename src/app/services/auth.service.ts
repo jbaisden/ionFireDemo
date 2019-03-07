@@ -76,12 +76,15 @@ export class AuthService {
 
       if (this.platform.is('cordova')) {
         user = await this.nativeGoogleLogin();
+        console.warn('Platform is cordova');
       } else {
+        console.warn('Platform is NOT cordova');
         await this.setRedirect(true);
         const provider = new auth.GoogleAuthProvider();
+
+        // user = await this.afAuth.auth.signInWithPopup(provider);
         user = await this.afAuth.auth.signInWithRedirect(provider);
       }
-
       return await this.updateUserData(user);
     } catch (err) {
       console.log(err);

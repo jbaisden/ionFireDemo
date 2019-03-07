@@ -10,6 +10,8 @@ export class ProfileComponent implements OnInit {
   @Input() user: any;
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log(this.user);
+  }
 
 }
