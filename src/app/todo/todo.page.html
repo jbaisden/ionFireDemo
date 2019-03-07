@@ -11,8 +11,24 @@
 
 <ion-content padding>
 
+  <ion-segment (ionChange)="updateFilter($event.detail.value)">
+
+    <ion-segment-button value="" checked>
+      All
+    </ion-segment-button>
+
+    <ion-segment-button value="complete" checked>
+      Complete
+    </ion-segment-button>
+
+    <ion-segment-button value="pending" checked>
+      Pending
+    </ion-segment-button>
+
+  </ion-segment>
+
   <ion-list>
-    <ion-item *ngFor="let todo of todos | async; trackBy: trackById">
+    <ion-item *ngFor="let todo of filtered | async; trackBy: trackById">
       <ion-label>
         <span [class.complete]="todo.status === 'complete'">
           {{ todo.details }}

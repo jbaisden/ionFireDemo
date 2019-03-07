@@ -15,24 +15,53 @@ import { TodoFormComponent } from './todo-form/todo-form.component';
 export class TodoPage implements OnInit {
 
   todos;
+  filtered;
+
+  filter = new BehaviorSubject(null);
+
   constructor(
     public db: DbService,
     public auth: AuthService,
     public modal: ModalController
   ) { }
 
-  ngOnInit() {
-    this.todos = this.auth.user$.pipe(
-      switchMap(user =>
-        this.db.collection$('todos', ref =>
-          ref
-            .where('uid', '==', user.uid)
-            .orderBy('createdAt', 'desc')
-            .limit(25)
-        )
-      ),
-      shareReplay(1)
+  async ngOnInit() {
+    const uid = await this.auth.uid();
+
+    this.todos = this.db.collection$('todos', ref =>
+      ref
+        .where('uid', '==', uid)
+        .orderBy('createdAt', 'desc')
+        .limit(25)
     );
+
+    //See Jeff Delaney's Custom RxJS operators on ways to 
+    //make this more readable
+    this.filtered = this.filter.pipe(
+      switchMap(filter => {
+        return this.todos.pipe(
+          map(arr =>
+            (arr as any[]).filter(
+              obj => (status ? obj.status === status : true)
+            )
+          )
+        )
+      }
+      )
+
+    );
+
+    // this.todos = this.auth.user$.pipe(
+    //   switchMap(user =>
+    //     this.db.collection$('todos', ref =>
+    //       ref
+    //         .where('uid', '==', user.uid)
+    //         .orderBy('createdAt', 'desc')
+    //         .limit(25)
+    //     )
+    //   ),
+    //   shareReplay(1)
+    // );
   }
 
   trackById(idx, todo) {
@@ -47,5 +76,12 @@ export class TodoPage implements OnInit {
     const status = todo.status === 'complete' ? 'pending' : 'complete';
     this.db.updateAt(`todos/${todo.id}`, { status });
   }
+
+  updateFilter(val) {
+    //filter todos where status === eventValue
+    console.warn('updating filter: ' + val);
+    this.filter.next(val);
+  }
+
 
 }
