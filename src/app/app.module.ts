@@ -34,7 +34,8 @@ import { IonicStorageModule } from '@ionic/storage';
     AngularFireFunctionsModule,
     AngularFireMessagingModule,
     HomePageModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    TodoPageModule
   ],
   providers: [
     Firebase,

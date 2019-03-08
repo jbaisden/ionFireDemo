@@ -6,6 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap, map, shareReplay } from 'rxjs/operators';
 import { TodoFormComponent } from './todo-form/todo-form.component';
+import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 
 @Component({
   selector: 'app-todo',
@@ -26,42 +27,34 @@ export class TodoPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    const uid = await this.auth.uid();
+    // const uid = await this.auth.uid();
 
-    this.todos = this.db.collection$('todos', ref =>
-      ref
-        .where('uid', '==', uid)
-        .orderBy('createdAt', 'desc')
-        .limit(25)
+    this.todos = this.auth.user$.pipe(
+      switchMap(user =>
+        this.db.collection$('todos', ref =>
+          ref
+            .where('uid', '==', user.uid)
+            .orderBy('createdAt', 'desc')
+            .limit(25)
+        )
+      ),
+      shareReplay(1)
     );
 
     //See Jeff Delaney's Custom RxJS operators on ways to 
     //make this more readable
     this.filtered = this.filter.pipe(
-      switchMap(filter => {
+      switchMap(status => {
         return this.todos.pipe(
           map(arr =>
             (arr as any[]).filter(
               obj => (status ? obj.status === status : true)
             )
           )
-        )
-      }
-      )
-
+        );
+      })
     );
 
-    // this.todos = this.auth.user$.pipe(
-    //   switchMap(user =>
-    //     this.db.collection$('todos', ref =>
-    //       ref
-    //         .where('uid', '==', user.uid)
-    //         .orderBy('createdAt', 'desc')
-    //         .limit(25)
-    //     )
-    //   ),
-    //   shareReplay(1)
-    // );
   }
 
   trackById(idx, todo) {
@@ -81,6 +74,14 @@ export class TodoPage implements OnInit {
     //filter todos where status === eventValue
     console.warn('updating filter: ' + val);
     this.filter.next(val);
+  }
+
+  async presentTodoForm(todo) {
+    const modal = await this.modal.create({
+      component: TodoFormComponent,
+      componentProps: { todo }
+    });
+    return await modal.present();
   }
 
 

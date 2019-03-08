@@ -6,3 +6,7 @@
 ion-button {
     margin-left: 5px;
 }
+
+/* Ensure clicking the icons does not trigger the checkbox's click event */
+ion-checkbox { z-index: 1;}
+ion-icon { z-index: 2; }

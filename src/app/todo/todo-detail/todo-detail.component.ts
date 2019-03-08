@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { DbService } from '../../services/db.service';
 @Component({
   selector: 'app-todo-detail',
   templateUrl: './todo-detail.component.html',
-  styleUrls: ['./todo-detail.component.scss'],
+  styleUrls: ['./todo-detail.component.scss']
 })
 export class TodoDetailComponent implements OnInit {
+  todo$;
+  constructor(private router: Router, private route: ActivatedRoute, private db: DbService) { }
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.todo$ = this.db.doc$(`todos/${id}`);
+  }
 
-  constructor() { }
-
-  ngOnInit() {}
-
+  close() {
+    this.router.navigate(['/todo']);
+  }
 }
